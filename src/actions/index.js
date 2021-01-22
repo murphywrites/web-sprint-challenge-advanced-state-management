@@ -32,9 +32,26 @@ export const fetchSmurfs = () => dispatch => {
 //3. Add set error text action:
 //              - return action object setting error text
 //4. Any other actions you deem nessiary to complete application.
-export const addSmurf = (smurfState) => {
+export const addSmurf = (smurfState) => dispatch => {
+//    if(smurfState.name && smurfState.nickname && smurfState.position) {
     console.log(smurfState)
-    return { 
-        type: ADD_SMURF,
-         payload: smurfState};
-}
+    dispatch({ type: START_API_CALL});
+    axios
+    .post('http://localhost:3333/smurfs', smurfState)
+        .then( res => {
+            console.log(res)
+            dispatch({type: ADD_SMURF, payload: smurfState})
+        })
+        .catch( err => {
+            console.log(err.response.data.Error)
+            const errorObj = {
+                network: false,
+                name: smurfState.name ? false : true,
+                nickname: smurfState.nickname ? false: true,
+                position: smurfState.position ? false: true,
+                existingName: err.response.data.Error.includes("exist") ? true : false
+            }
+            
+            dispatch({type: SET_ERROR, payload: errorObj})
+        })
+   }

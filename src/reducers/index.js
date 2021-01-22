@@ -1,10 +1,15 @@
 
 // IMPORT FROM ACTIONS
-import {START_API_CALL, END_API_CALL, ADD_SMURF, SET_ERROR, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_FAIL} from '../actions'
+import {START_API_CALL, ADD_SMURF, SET_ERROR, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_FAIL} from '../actions'
 export const initialState = {
     smurfs: [],
     isLoading: false,
-    error: "",
+    error: {
+        name:false,
+        position:false,
+        nickname:false,
+        existingName:false
+    },
 }
 // CG push
 export const reducer = (state = initialState, action)=>{
@@ -13,30 +18,55 @@ export const reducer = (state = initialState, action)=>{
         return ({
             ...state,
             isLoading: true,
-            error:''
+            error: {
+                network:false,
+                name:false,
+                position:false,
+                nickname:false,
+                existingName:false
+            }
             })
         case(FETCH_SMURFS_SUCCESS):
+        console.log('from reducers on Sucess: ', action.payload)
         return ({
             ...state,
             smurfs: action.payload,
             isLoading: false,
-            error:''
+            error: {
+                network:false,
+                name:false,
+                position:false,
+                nickname:false,
+                existingName:false
+            }
         })
         case(FETCH_SMURFS_FAIL):
         return ({
             ...state,
             isLoading: false,
-            error:'Network Error: Try Again'
+            error: {
+                network:true,
+                name:false,
+                position:false,
+                nickname:false,
+                existingName:false
+            }
         })
-        case(END_API_CALL):
-        return state
         case(ADD_SMURF):
+        const newSmurf = {...action.payload, id: state.smurfs.length}
+        console.log("from reducers on add smurf: ", newSmurf)
         return ({
             ...state,
-            smurfs: [...state.smurfs, action.payload]
+            smurfs: [...state.smurfs, newSmurf],
+            isLoading: false,
         })
         case(SET_ERROR):
-        return state
+        return ({
+            ...state,
+            isLoading: false,
+            error: action.payload
+            }
+        )
         default:
         return state
     }
