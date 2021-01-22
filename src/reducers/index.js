@@ -1,6 +1,6 @@
 
 // IMPORT FROM ACTIONS
-import {START_API_CALL, END_API_CALL, ADD_SMURF, SET_ERROR} from '../actions'
+import {START_API_CALL, END_API_CALL, ADD_SMURF, SET_ERROR, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_FAIL} from '../actions'
 export const initialState = {
     smurfs: [],
     isLoading: false,
@@ -10,11 +10,31 @@ export const initialState = {
 export const reducer = (state = initialState, action)=>{
     switch(action.type) {
         case(START_API_CALL):
-        return state
+        return ({
+            ...state,
+            isLoading: true,
+            error:''
+            })
+        case(FETCH_SMURFS_SUCCESS):
+        return ({
+            ...state,
+            smurfs: action.payload,
+            isLoading: false,
+            error:''
+        })
+        case(FETCH_SMURFS_FAIL):
+        return ({
+            ...state,
+            isLoading: false,
+            error:'Network Error: Try Again'
+        })
         case(END_API_CALL):
         return state
         case(ADD_SMURF):
-        return state
+        return ({
+            ...state,
+            smurfs: [...state.smurfs, action.payload]
+        })
         case(SET_ERROR):
         return state
         default:
