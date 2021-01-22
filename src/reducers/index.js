@@ -6,7 +6,7 @@ export const initialState = {
     isLoading: false,
     error: "",
 }
-
+// CG push
 export const reducer = (state = initialState, action)=>{
     switch(action.type) {
         case(START_API_CALL):
