@@ -1,8 +1,25 @@
 
+// IMPORT FROM ACTIONS
+import {START_API_CALL, END_API_CALL, ADD_SMURF, SET_ERROR} from '../actions'
 export const initialState = {
+    smurfs: [],
+    isLoading: false,
+    error: "",
 }
 
-const reducer = ()=>{
+export const reducer = (state = initialState, action)=>{
+    switch(action.type) {
+        case(START_API_CALL):
+        return state
+        case(END_API_CALL):
+        return state
+        case(ADD_SMURF):
+        return state
+        case(SET_ERROR):
+        return state
+        default:
+        return state
+    }
 }
 
 export default reducer;

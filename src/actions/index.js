@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+export const START_API_CALL = "START_API_CALL"
+export const END_API_CALL = "END_API_CALL"
+export const ADD_SMURF = "ADD_SMURF"
+export const SET_ERROR = "SET_ERROR"
 //Task List:
 //1. Add fetch smurfs action: 
 //              - fetch and return initial list of smurfs
